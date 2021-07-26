@@ -3,6 +3,7 @@ package com.rewards.model;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -12,14 +13,7 @@ import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 @Entity
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class Transaction extends Reward {
 
 	@Id
@@ -27,8 +21,8 @@ public class Transaction extends Reward {
 	private Long transactionId;
 	
 	@JsonIgnore
-	@ManyToOne
-	@JoinColumn 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="customer_id")
 	private Customer customer;
 	
 	private Double total;
@@ -37,6 +31,59 @@ public class Transaction extends Reward {
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date saveDate;
+	
+	public Transaction() {
+		super();
+	}
+
+	public Transaction(Long transactionId, Customer customer, Double total, String description, Date saveDate) {
+		super();
+		this.transactionId = transactionId;
+		this.customer = customer;
+		this.total = total;
+		this.description = description;
+		this.saveDate = saveDate;
+	}
+
+	public Long getTransactionId() {
+		return transactionId;
+	}
+
+	public void setTransactionId(Long transactionId) {
+		this.transactionId = transactionId;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	public Double getTotal() {
+		return total;
+	}
+
+	public void setTotal(Double total) {
+		this.total = total;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Date getSaveDate() {
+		return saveDate;
+	}
+
+	public void setSaveDate(Date saveDate) {
+		this.saveDate = saveDate;
+	}
 
 	@Override
 	public Long getPoints() {

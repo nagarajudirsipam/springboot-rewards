@@ -22,4 +22,8 @@ public class RewardsService {
 		return customerRepository.findById(customerId).orElse(null);
 	}
 
+	public Customer saveCustomer(Customer customer) {
+		return customerRepository.save(customer);
+	}
+
 }
